@@ -12,8 +12,12 @@ endif
 INCLUDES?=-Irustybits/target -isystem ext -Iext/prometheus-cpp-lite-1.0/core/include -Iext-prometheus-cpp-lite-1.0/3rdparty/http-client-lite/include -Iext/prometheus-cpp-lite-1.0/simpleapi/include
 DEFS?=
 LDLIBS?=
+ifdef TERMUX_VERSION
+DESTDIR?=$(PREFIX)/..
+else
 DESTDIR?=
 EXTRA_DEPS?=
+endif
 
 include objects.mk
 ONE_OBJS+=osdep/LinuxEthernetTap.o
@@ -457,6 +461,9 @@ endif
 # lived here. Folks got scripts.
 
 install:	FORCE
+ifdef TERMUX_VERSION
+	ln -sf $(DESTDIR)/usr/var $(DESTDIR)
+endif
 	mkdir -p $(DESTDIR)/usr/sbin
 	rm -f $(DESTDIR)/usr/sbin/zerotier-one
 	cp -f zerotier-one $(DESTDIR)/usr/sbin/zerotier-one
@@ -498,6 +505,9 @@ uninstall:	FORCE
 	rm -f $(DESTDIR)/usr/share/man/man8/zerotier-one.8.gz
 	rm -f $(DESTDIR)/usr/share/man/man1/zerotier-idtool.1.gz
 	rm -f $(DESTDIR)/usr/share/man/man1/zerotier-cli.1.gz
+ifdef TERMUX_VERSION
+	rm -f $(DESTDIR)/var
+endif
 
 # These are just for convenience for building Linux packages
 
