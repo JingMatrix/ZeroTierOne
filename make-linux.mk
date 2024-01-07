@@ -13,11 +13,11 @@ INCLUDES?=-Irustybits/target -isystem ext -Iext/prometheus-cpp-lite-1.0/core/inc
 DEFS?=
 LDLIBS?=
 ifdef TERMUX_VERSION
-DESTDIR?=$(PREFIX)/..
+	DESTDIR?=$(PREFIX)/..
 else
-DESTDIR?=
-EXTRA_DEPS?=
+	DESTDIR?=
 endif
+EXTRA_DEPS?=
 
 include objects.mk
 ONE_OBJS+=osdep/LinuxEthernetTap.o
